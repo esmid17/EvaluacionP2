@@ -8,6 +8,7 @@ class Producto {
 }
 
 class Inventario {
+    //Encapsulamiento del atributo 'productos'
     #productos;
 
     constructor() {
@@ -49,14 +50,17 @@ class Inventario {
         return varProductos;
     }
 
+    //Método para filtrar productos por categoría usando filter
     filtrarPorCategoria(categoria) {
         return this.#productos.filter(producto => producto.categoria === categoria);
     }
 
+    //Método para buscar productos por nombre usando find
     buscarProducto(nombre) {
         return this.#productos.find(producto => producto.nombre === nombre);
     }
 
+    //Método para aplicar cualquier descuento que se ingrese por teclado
     aplicarDescuento(categoria, porcentaje) {
         this.#productos.forEach(producto => {
             if (producto.categoria === categoria) {
@@ -71,6 +75,7 @@ class Inventario {
 }
 
 class Venta {
+    //Encapsulamiento del atributo 'ventas'
     #ventas;
 
     constructor() {
@@ -92,6 +97,8 @@ class Venta {
             return;
         }
 
+        //Objeto que nos permite realizar la transacción de la venta del producto, el cual se mostrará mas adelante en pantalla con los
+        //datos correspondientes
         producto.cantidad -= cantidad;
         const venta = {
             producto: producto.nombre,
@@ -114,6 +121,7 @@ class Venta {
         console.log(`Venta realizada: ${cantidad} unidades de '${producto.nombre}' por $${venta.total}.`);
     }
 
+    //Muestra las ventas realizadas de los productos 
     informeVentas() {
         let totalIngresos = 0;
         const productosVendidos = {};
@@ -127,6 +135,7 @@ class Venta {
             productosVendidos[venta.producto] += venta.cantidad;
         }
 
+        //Inicialización de variables
         let productoMasVendido = null;
         let maxCantidad = 0;
 
@@ -137,6 +146,7 @@ class Venta {
             }
         }
 
+        //Devuelve los datos ya calculados luego de las ventas
         return {
             ventas: this.#ventas,
             totalIngresos,
@@ -144,7 +154,8 @@ class Venta {
         };
     }
 
-    imprimirReporte(inventario) {
+    //Muestar en pantalla el inventario actualizado luego de aplicar el descuento
+    imprimirInforme(inventario) {
         const reporte = this.informeVentas();
 
         console.log("                                          Inventario actualizado");
@@ -193,4 +204,4 @@ ventas.realizarVenta(inventario, "Yogurt", 40);
 //Descuento del 10%
 inventario.aplicarDescuento("Productos", 10);
 
-ventas.imprimirReporte(inventario);
+ventas.imprimirInforme(inventario);
